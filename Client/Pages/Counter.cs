@@ -4,10 +4,10 @@ namespace ImageTemplateUI
 {
     namespace Components
     {
-        public class CounterModel
+        public class Counter
         {
             public int Count { get; set; }
-            public CounterModel(int startCount = 0)
+            public Counter(int startCount = 0)
             {
                 Count = startCount;
             }

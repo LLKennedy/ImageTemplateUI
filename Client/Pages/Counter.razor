@@ -4,7 +4,7 @@
 @* Fall back with a string in case int parsing fails *@
 @page "/counter/{StringInitial}"
 
-@using ImageTemplateUI.Components
+@using Components = ImageTemplateUI.Components;
 
 <h1>Counter</h1>
 
@@ -17,9 +17,9 @@
     public int Initial { get; set; } = 0;
     [Parameter]
     public string StringInitial { get; set; } = null;
-    private CounterModel Model;
+    private Components.Counter Model;
     protected override void OnInitialized()
     {
-        Model = new CounterModel(Initial);
+        Model = new Components.Counter(Initial);
     }
 }

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\ImageTemplateUI.Shared.csproj" />
+    <ProjectReference Include="..\ImageTemplate\ImageTemplate.csproj" />
   </ItemGroup>
 
   <ItemGroup>

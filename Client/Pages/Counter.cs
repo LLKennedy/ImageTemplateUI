@@ -1,17 +1,23 @@
 using System;
+using Microsoft.AspNetCore.Components;
 using ImageTemplate;
 
 namespace ImageTemplateUI
 {
     namespace Components
     {
-        public class Counter
+        public class Counter : ComponentBase
         {
+            
+            [Parameter]
+            public int Initial { get; set; } = 0;
+            [Parameter]
+            public string StringInitial { get; set; } = null;
             public int Count { get; set; }
             public string ImageData { get; set; } = "";
-            public Counter(int startCount = 0)
+            protected override void OnInitialized()
             {
-                Count = startCount;
+                Count = Initial;
                 var builder = new Builder();
                 using(var rendered = builder.Render(null))
                 {
@@ -25,7 +31,6 @@ namespace ImageTemplateUI
                     }
                 }
             }
-
             public void IncrementCount()
             {
                 Count++;

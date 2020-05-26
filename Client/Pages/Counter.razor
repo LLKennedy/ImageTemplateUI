@@ -1,27 +1,14 @@
 ﻿@page "/counter"
+@* Allow initialisation with a starting integer *@
 @page "/counter/{Initial:int}"
-
 @* Fall back with a string in case int parsing fails *@
 @page "/counter/{StringInitial}"
-
-@using Components = ImageTemplateUI.Components;
+@inherits Components.Counter
 
 <h1>Counter</h1>
 
-<img src="@Model.ImageData"/>
+<img src="@ImageData"/>
 
-<p>Current count: @Model.Count</p>
+<p>Current count: @Count</p>
 
-<button class="btn btn-primary" @onclick="Model.IncrementCount">Click me</button>
-
-@code {
-    [Parameter]
-    public int Initial { get; set; } = 0;
-    [Parameter]
-    public string StringInitial { get; set; } = null;
-    private Components.Counter Model;
-    protected override void OnInitialized()
-    {
-        Model = new Components.Counter(Initial);
-    }
-}
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>

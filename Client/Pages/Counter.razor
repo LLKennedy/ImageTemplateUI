@@ -1,0 +1,17 @@
+﻿@page "/counter"
+@* Allow initialisation with a starting integer *@
+@page "/counter/{Initial:int}"
+@* Fall back with a string in case int parsing fails *@
+@page "/counter/{StringInitial}"
+
+@inherits Components.Counter
+
+<h1>Counter</h1>
+
+<BECanvas Width="300" Height="400" @ref="_canvasReference" ></BECanvas>
+
+<img src="@ImageData"/>
+
+<p>Current count: @Count</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>

@@ -1,20 +1,23 @@
 using System;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using ImageTemplate;
 
 namespace ImageTemplateUI
 {
     namespace Components
     {
-        public class Counter : ComponentBase
+        public class Counter : PageBase
         {
-            
             [Parameter]
             public int Initial { get; set; } = 0;
             [Parameter]
             public string StringInitial { get; set; } = null;
             public int Count { get; set; }
             public string ImageData { get; set; } = "";
+            public Counter() : base()
+            {
+            }
             protected override void OnInitialized()
             {
                 Count = Initial;

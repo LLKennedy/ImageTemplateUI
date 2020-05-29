@@ -24,13 +24,13 @@ namespace ImageTemplateUI
             protected override void OnInitialized()
             {
                 Count = Initial;
-                var builder = new Builder();
-                using(var rendered = builder.Render(null))
+                var template = new Template();
+                using (var rendered = template.Render(null))
                 {
                     try
                     {
                         ImageData = rendered.B64();
-                    } 
+                    }
                     catch (Exception ex)
                     {
                         Console.Error.WriteLine("Error converting image to string: " + ex.Message);

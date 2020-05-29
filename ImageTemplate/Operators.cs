@@ -106,13 +106,84 @@ namespace ImageTemplate
                         throw new Exception("Invalid operator " + op + ", cannot convert to string");
                 }
             }
-            ///<summary>Compares two values according to the operator's logic</summary>
-            public static bool Compare(this Condition.ConditionalOperator op, string firstValue, object secondValue)
+            ///<summary>Compares two values according to the operator's logic, this will throw an exception if the values are not the correct type</summary>
+            public static bool Compare(this Condition.ConditionalOperator op, String firstString, object secondValue)
             {
+                String secondString;
+                double firstDouble;
+                double secondDouble;
                 switch (op)
                 {
+                    case Condition.ConditionalOperator.Equals:
+                        secondString = (string)secondValue;
+                        return firstString.Equals(secondString);
+                    case Condition.ConditionalOperator.Contains:
+                        secondString = (string)secondValue;
+                        return firstString.Contains(secondString);
+                    case Condition.ConditionalOperator.StartsWith:
+                        secondString = (string)secondValue;
+                        return firstString.StartsWith(secondString);
+                    case Condition.ConditionalOperator.EndsWidth:
+                        secondString = (string)secondValue;
+                        return firstString.EndsWith(secondString);
+                    case Condition.ConditionalOperator.CaseInsensitiveEquals:
+                        secondString = (string)secondValue;
+                        return firstString.ToLower().Equals(secondString.ToLower());
+                    case Condition.ConditionalOperator.CaseInsenstiveContains:
+                        secondString = (string)secondValue;
+                        return firstString.ToLower().Contains(secondString.ToLower());
+                    case Condition.ConditionalOperator.CaseInsensitiveStartsWith:
+                        secondString = (string)secondValue;
+                        return firstString.ToLower().StartsWith(secondString.ToLower());
+                    case Condition.ConditionalOperator.CaseInsensitiveEndsWith:
+                        secondString = (string)secondValue;
+                        return firstString.ToLower().EndsWith(secondString.ToLower());
+                    case Condition.ConditionalOperator.NumericEquals:
+                        firstDouble = double.Parse(firstString);
+                        secondDouble = secondValue.ConvertNumericObject();
+                        return firstDouble.Equals(secondDouble); // TODO: test edge cases with this one
+                    case Condition.ConditionalOperator.LessThan:
+                        firstDouble = double.Parse(firstString);
+                        secondDouble = secondValue.ConvertNumericObject();
+                        return firstDouble < secondDouble;
+                    case Condition.ConditionalOperator.GreaterThan:
+                        firstDouble = double.Parse(firstString);
+                        secondDouble = secondValue.ConvertNumericObject();
+                        return firstDouble > secondDouble;
+                    case Condition.ConditionalOperator.LessOrEqual:
+                        firstDouble = double.Parse(firstString);
+                        secondDouble = secondValue.ConvertNumericObject();
+                        return firstDouble <= secondDouble;
+                    case Condition.ConditionalOperator.GreaterOrEqual:
+                        firstDouble = double.Parse(firstString);
+                        secondDouble = secondValue.ConvertNumericObject();
+                        return firstDouble >= secondDouble;
                     default:
                         throw new Exception("Invalid operator " + op + ", cannot use for comparisons");
+                }
+            }
+            private static double ConvertNumericObject(this object obj)
+            {
+                switch (obj)
+                {
+                    case byte convertedObj:
+                        return (double)convertedObj;
+                    case int convertedObj:
+                        return (double)convertedObj;
+                    case Int16 convertedObj:
+                        return (double)convertedObj;
+                    case uint convertedObj:
+                        return (double)convertedObj;
+                    case long convertedObj:
+                        return (double)convertedObj;
+                    case ulong convertedObj:
+                        return (double)convertedObj;
+                    case float convertedObj:
+                        return (double)convertedObj;
+                    case double convertedObj:
+                        return (double)convertedObj;
+                    default:
+                        throw new Exception("Invalid object " + obj + " of type " + obj.GetType() + ", must be numeric");
                 }
             }
             ///<summary>Converts a string to a group operator, or Unknown if the string is not a valid operator</summary>

@@ -70,6 +70,7 @@ namespace ImageTemplate
                     // The condition we need doesn't exist, we can't compare it to anything
                     return false;
                 }
+                // XOR with Not negates the output
                 return Not ^ Operator.Compare(Value, propVal);
             }
         }

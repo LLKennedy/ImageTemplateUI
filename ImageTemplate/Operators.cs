@@ -106,6 +106,15 @@ namespace ImageTemplate
                         throw new Exception("Invalid operator " + op + ", cannot convert to string");
                 }
             }
+            ///<summary>Compares two values according to the operator's logic</summary>
+            public static bool Compare(this Condition.ConditionalOperator op, string firstValue, object secondValue)
+            {
+                switch (op)
+                {
+                    default:
+                        throw new Exception("Invalid operator " + op + ", cannot use for comparisons");
+                }
+            }
             ///<summary>Converts a string to a group operator, or Unknown if the string is not a valid operator</summary>
             public static Condition.GroupOperator ToGroupOperator(this string operatorString)
             {
@@ -160,7 +169,7 @@ namespace ImageTemplate
                     case Condition.GroupOperator.Xor:
                         return (false, (bool current, ICondition next, IDictionary<string, object> props) => { return current ^ next.ShouldRender(props); });
                     default:
-                        throw new Exception("Unknown operator " + op);
+                        throw new Exception("Invalid operator " + op + ", cannot get check function");
                 }
             }
         }

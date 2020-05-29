@@ -36,7 +36,7 @@ namespace ImageTemplate
         public uint Height { get; set; } = DefaultHeight;
 
         ///<summary> The components in the template </summary>
-        private IEnumerable<IComponent> Components { get; set; } = new List<IComponent> { };
+        private IEnumerable<ConditionalComponent> Components { get; set; } = new List<ConditionalComponent> { };
 
         ///<summary> Creates an empty template with no content and default width/height </summary>
         public Template(uint width = DefaultWidth, uint height = DefaultHeight)
@@ -64,7 +64,10 @@ namespace ImageTemplate
         {
             foreach (var component in Components)
             {
-                await component.Render(context, props);
+                if (component.ShouldRender(props))
+                {
+                    await component.Render(context, props);
+                }
             }
         }
     }

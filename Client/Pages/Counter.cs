@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Blazor.Extensions;
 using Blazor.Extensions.Canvas.Canvas2D;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
 using ImageTemplate;
 
 namespace ImageTemplateUI
@@ -25,7 +24,7 @@ namespace ImageTemplateUI
             {
                 Count = Initial;
                 var template = new Template();
-                using (var rendered = template.Render(null))
+                using (var rendered = template.Render(null).Result)
                 {
                     try
                     {

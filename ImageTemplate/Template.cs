@@ -11,7 +11,7 @@ namespace ImageTemplate
 
     public interface ITemplate
     {
-        Task<Canvas2DContext> Render(BECanvasComponent canvas, IDictionary<string, object> props = null);
+        Task Render(BECanvasComponent canvas, IDictionary<string, object> props = null);
         Task Render(Canvas2DContext context, IDictionary<string, object> props = null);
         Task<Image> Render(IDictionary<string, object> props = null);
     }
@@ -19,6 +19,8 @@ namespace ImageTemplate
     ///<summary> Template defines the format of image template files </summary>
     public class Template : ITemplate
     {
+        public uint Width { get; set; }
+        public uint Height { get; set; }
 
         public async Task<Image> Render(IDictionary<string, object> props = null)
         {
@@ -26,19 +28,29 @@ namespace ImageTemplate
             return await Task.FromResult(img);
         }
 
-        public async Task<Canvas2DContext> Render(BECanvasComponent canvas, IDictionary<string, object> props = null)
+        public async Task Render(BECanvasComponent canvas, IDictionary<string, object> props = null)
         {
-            // using (Canvas2DContext context = await canvas.CreateCanvas2DAsync())
-            // {
-            Canvas2DContext context = await canvas.CreateCanvas2DAsync();
-            await Render(context, props);
-            return context;
-            // }
+            using (Canvas2DContext context = await canvas.CreateCanvas2DAsync())
+            {
+                Width = (uint)canvas.Width;
+                Height = (uint)canvas.Height;
+                await Render(context, props);
+            }
         }
         public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
         {
+            await context.ClearRectAsync(0, 0, Width, Height);
             await context.SetFillStyleAsync("#000000FF");
-            await context.FillRectAsync(0, 0, 10, 10);
+            int gotCount = 0;
+            if (props != null)
+            {
+                var count = props.Where(prop => prop.Key == "count").Select(prop => prop.Value).FirstOrDefault();
+                if (count != null)
+                {
+                    gotCount = (int)count;
+                }
+            }
+            await context.FillRectAsync(gotCount * 10, 0, 10, 10);
         }
     }
 }

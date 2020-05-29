@@ -6,7 +6,7 @@ namespace ImageTemplate
     public static class ComponentFactory
     {
         private static Dictionary<string, Type> Registry = new Dictionary<string, Type>();
-        public static void Register<T>(string id)
+        public static void Register<T>(String id)
         {
             var type = typeof(T);
             if (type.IsAbstract || type.IsInterface)
@@ -17,12 +17,12 @@ namespace ImageTemplate
             {
                 throw new ArgumentException("Cannot register non-IComponent type");
             }
-            Registry.Add(id, type);
+            Registry.Add(id.ToLower(), type);
         }
-        public static IComponent Create<T>(string id)
+        public static IComponent Create<T>(String id)
         {
             Type type;
-            if (!Registry.TryGetValue(id, out type))
+            if (!Registry.TryGetValue(id.ToLower(), out type))
             {
                 throw new Exception("Unsupported component id: " + id);
             }

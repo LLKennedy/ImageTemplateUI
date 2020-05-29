@@ -51,7 +51,22 @@ namespace ImageTemplateUI
             {
                 if (firstRender)
                 {
-                    await RenderTemplate.Render(CanvasReference);
+                    var firstTemplate = new Template();
+                    firstTemplate.Components = new List<ConditionalComponent>
+                    {
+                        new ConditionalComponent
+                        {
+                            Component = new ImageTemplate.Components.Rectangle()
+                            {
+                                Colour = "blue",
+                                Height = 30,
+                                Width = 20,
+                                StartX = 5,
+                                StartY = 7,
+                            }
+                        }
+                    };
+                    await firstTemplate.Render(CanvasReference);
                     CanvasContext = await CanvasReference.CreateCanvas2DAsync();
                     await CanvasContext.SetFillStyleAsync("green");
 

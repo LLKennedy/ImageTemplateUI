@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Extensions;
 using Blazor.Extensions.Canvas.Canvas2D;
+using Microsoft.AspNetCore.Components;
 using SixLabors.ImageSharp;
 
 namespace ImageTemplate
@@ -11,16 +12,38 @@ namespace ImageTemplate
 
     public interface ITemplate
     {
+        ///<summary> The width of the image the template will render </summary>
+        uint Width { get; }
+        ///<summary> The height of the image the template will render </summary>
+        uint Height { get; }
+        ///<summary> Creates a 2D drawing context on the canvas then renders the template to the canvas, the canvas must already be set to match the Width and Height of the template </summary>
         Task Render(BECanvasComponent canvas, IDictionary<string, object> props = null);
+        ///<summary> Renders the template to the canvas, the canvas must already be set to match the Width and Height of the template </summary>
         Task Render(Canvas2DContext context, IDictionary<string, object> props = null);
+        ///<summary> Creates a new image from scratch as a render of the template </summary>
         Task<Image> Render(IDictionary<string, object> props = null);
     }
 
     ///<summary> Template defines the format of image template files </summary>
     public class Template : ITemplate
     {
-        public uint Width { get; set; }
-        public uint Height { get; set; }
+        ///<summary> The default width of templates </summary>
+        public const uint DefaultWidth = 50;
+
+        ///<summary> The default height of templates </summary>
+        public const uint DefaultHeight = 50;
+        public uint Width { get; set; } = DefaultWidth;
+        public uint Height { get; set; } = DefaultHeight;
+
+        ///<summary> The components in the template </summary>
+        public IEnumerable<ConditionalComponent> Components { get; set; } = new List<ConditionalComponent> { };
+
+        ///<summary> Creates an empty template with no content and default width/height </summary>
+        public Template(uint width = DefaultWidth, uint height = DefaultHeight)
+        {
+            Width = width;
+            Height = height;
+        }
 
         public async Task<Image> Render(IDictionary<string, object> props = null)
         {
@@ -39,18 +62,13 @@ namespace ImageTemplate
         }
         public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
         {
-            await context.ClearRectAsync(0, 0, Width, Height);
-            await context.SetFillStyleAsync("#000000FF");
-            int gotCount = 0;
-            if (props != null)
+            foreach (var component in Components)
             {
-                var count = props.Where(prop => prop.Key == "count").Select(prop => prop.Value).FirstOrDefault();
-                if (count != null)
+                if (component.ShouldRender(props))
                 {
-                    gotCount = (int)count;
+                    await component.Render(context, props);
                 }
             }
-            await context.FillRectAsync(gotCount * 10, 0, 10, 10);
         }
     }
 }

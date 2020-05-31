@@ -33,7 +33,7 @@ namespace ImageTemplateUI
                 Count++;
                 try
                 {
-                    await RenderTemplate.Render(this._canvasReference, new Dictionary<string, object>{
+                    await RenderTemplate.Render(CanvasReference, new Dictionary<string, object>{
                     { "count", Count },
                     });
                 }
@@ -43,32 +43,47 @@ namespace ImageTemplateUI
                 }
             }
 
-            private Canvas2DContext _context;
+            private Canvas2DContext CanvasContext;
 
-            protected BECanvasComponent _canvasReference;
+            protected BECanvasComponent CanvasReference;
 
             protected override async Task OnAfterRenderAsync(bool firstRender)
             {
                 if (firstRender)
                 {
-                    await RenderTemplate.Render(this._canvasReference);
-                    this._context = await this._canvasReference.CreateCanvas2DAsync();
-                    await this._context.SetFillStyleAsync("green");
+                    var firstTemplate = new Template();
+                    firstTemplate.Components = new List<ConditionalComponent>
+                    {
+                        new ConditionalComponent
+                        {
+                            Component = new ImageTemplate.Components.Rectangle()
+                            {
+                                Colour = System.Drawing.Color.Gold,
+                                Height = 30,
+                                Width = 20,
+                                StartX = 5,
+                                StartY = 7,
+                            }
+                        }
+                    };
+                    await firstTemplate.Render(CanvasReference);
+                    CanvasContext = await CanvasReference.CreateCanvas2DAsync();
+                    await CanvasContext.SetFillStyleAsync("green");
 
-                    await this._context.FillRectAsync(10, 100, 100, 100);
+                    await CanvasContext.FillRectAsync(10, 100, 100, 100);
 
-                    await this._context.SetFontAsync("48px serif");
-                    await this._context.StrokeTextAsync("Hello Blazor!!!", 10, 100);
+                    await CanvasContext.SetFontAsync("48px serif");
+                    await CanvasContext.StrokeTextAsync("Hello Blazor!!!", 10, 100);
                 }
             }
 
             new public void Dispose()
             {
                 base.Dispose();
-                if (this._context != null)
+                if (CanvasContext != null)
                 {
-                    this._context.Dispose();
-                    this._context = null;
+                    CanvasContext.Dispose();
+                    CanvasContext = null;
                 }
             }
         }

@@ -8,29 +8,21 @@ namespace ImageTemplate.File
         ///<summary>Overarching file structure for image template files</summary>
         public class TopLevel
         {
-            public BaseImage BaseImage;
-            public String Components; // Raw JSON
-            public TopLevel()
-            { }
-            public TopLevel(string data)
-            {
-                TopLevel o = JsonConvert.DeserializeObject<TopLevel>(data);
-                this.BaseImage = o.BaseImage;
-                this.Components = o.Components;
-            }
+            public BaseImage baseImage;
+            public String components; // Raw JSON
         }
         public class BaseImage
         {
-            public String FileName;
-            public String Data;
-            public RGBA BaseColour;
-            public String BaseWidth;
-            public String BaseHeight;
-            public String PPI;
-            public class RGBA
-            {
-                public string R, G, B, A;
-            }
+            public String fileName;
+            public String data;
+            public RGBA baseColour;
+            public String width;
+            public String height;
+            public String ppi;
+        }
+        public class RGBA
+        {
+            public string R, G, B, A;
         }
     }
 }

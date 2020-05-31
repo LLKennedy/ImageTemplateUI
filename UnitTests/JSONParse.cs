@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using ImageTemplate.File.Raw;
+using Newtonsoft.Json;
+
 namespace UnitTests
 {
     public class Tests
@@ -12,9 +14,14 @@ namespace UnitTests
         [Test]
         public void ParseJSON()
         {
-            string data = @"{""BaseImage"":{""BaseColour"":{""R"":""3""}}}";
-            TopLevel o = new TopLevel(data);
-            Assert.AreEqual(new BaseImage() { BaseColour = new BaseImage.RGBA() { R = "3" } }, o.BaseImage);
+            string data = @"{""baseImage"":{""baseColour"":{""R"":""3""}}}";
+            TopLevel o = JsonConvert.DeserializeObject<TopLevel>(data);
+            var backToJSON = JsonConvert.SerializeObject(o, new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+
+            });
+            Assert.AreEqual(data, backToJSON);
         }
     }
 }

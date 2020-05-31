@@ -58,7 +58,7 @@ namespace ImageTemplateUI
                         {
                             Component = new ImageTemplate.Components.Rectangle()
                             {
-                                Colour = "blue",
+                                Colour = System.Drawing.Color.Gold,
                                 Height = 30,
                                 Width = 20,
                                 StartX = 5,

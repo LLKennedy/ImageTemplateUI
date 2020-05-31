@@ -6,19 +6,18 @@ using Blazor.Extensions.Canvas.Canvas2D;
 
 namespace ImageTemplate.Components
 {
-    public class Rectangle : IComponent
+    public class Image : IComponent
     {
         public Color Colour;
         public int StartX, StartY;
-        public uint Width, Height;
+        public double Radius;
         public Task Render(IDictionary<string, object> props = null)
         {
             throw new Exception("Not implemented");
         }
-        public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
+        public Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
         {
-            await context.SetFillStyleAsync(Colour.ToRGBAHexString());
-            await context.FillRectAsync(StartX, StartY, Width, Height);
+            throw new Exception("Not implemented");
         }
         public static void Initialise()
         {

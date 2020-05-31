@@ -36,7 +36,7 @@ namespace ImageTemplate
         public uint Height { get; set; } = DefaultHeight;
 
         ///<summary> The components in the template </summary>
-        public IEnumerable<ConditionalComponent> Components { get; set; } = new List<ConditionalComponent> { };
+        public IList<ConditionalComponent> Components { get; set; } = new List<ConditionalComponent> { };
 
         ///<summary> Creates an empty template with no content and default width/height </summary>
         public Template(uint width = DefaultWidth, uint height = DefaultHeight)

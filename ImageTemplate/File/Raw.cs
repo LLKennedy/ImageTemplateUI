@@ -42,6 +42,15 @@ namespace ImageTemplate.File
         {
             ///<summary>A raw RGBA component</summary>
             public String R, G, B, A;
+            ///<summary>Convert RGBA to Color
+            public Color ToColour()
+            {
+                int intA = int.Parse(A);
+                int intR = int.Parse(R);
+                int intG = int.Parse(G);
+                int intB = int.Parse(B);
+                return Color.FromArgb(intA, intR, intG, intB);
+            }
         }
         ///<summary>A partially parsed component with conditional logic</summary>
         public class ConditionalComponent

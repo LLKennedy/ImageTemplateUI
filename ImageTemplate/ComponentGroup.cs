@@ -25,9 +25,9 @@ namespace ImageTemplate
             }
             return true;
         }
-        public async Task Render(IDictionary<string, object> props = null)
+        public async Task InjectJSON(string propertiesData)
         {
-            await Component.Render(props);
+            await Component.InjectJSON(propertiesData);
         }
         public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
         {
@@ -37,7 +37,7 @@ namespace ImageTemplate
     public partial class Condition : ICondition
     {
         public PureCondition Pure;
-        public IEnumerable<ICondition> NestedConditions;
+        public IList<ICondition> NestedConditions;
         public GroupOperator NestedOperator;
         public Condition()
         {

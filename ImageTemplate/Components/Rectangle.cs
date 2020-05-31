@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazor.Extensions.Canvas.Canvas2D;
+using Newtonsoft.Json;
+using ImageTemplate.File.Raw;
 
 namespace ImageTemplate.Components
 {
@@ -11,9 +13,13 @@ namespace ImageTemplate.Components
         public Color Colour;
         public int StartX, StartY;
         public uint Width, Height;
-        public Task Render(IDictionary<string, object> props = null)
+        public Task InjectJSON(string propertiesData)
         {
-            throw new Exception("Not implemented");
+            return Task.Run(() =>
+            {
+                var raw = JsonConvert.DeserializeObject<Raw>(propertiesData);
+
+            });
         }
         public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
         {
@@ -31,6 +37,14 @@ namespace ImageTemplate.Components
             {
                 ComponentFactory.Register<Rectangle>(id);
             }
+        }
+        public class Raw
+        {
+            public String topLeftX;
+            public String topLeftY;
+            public String width;
+            public String height;
+            public RGBA colour;
         }
     }
 }

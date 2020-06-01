@@ -6,6 +6,12 @@ namespace ImageTemplate
     public static class ComponentFactory
     {
         private static Dictionary<string, Type> Registry = new Dictionary<string, Type>();
+        static ComponentFactory()
+        {
+            Components.Circle.Initialise();
+            Components.Rectangle.Initialise();
+            Components.Image.Initialise();
+        }
         public static void Register<T>(String id)
         {
             var type = typeof(T);

@@ -29,8 +29,7 @@ namespace ImageTemplate.Components
         {
             var componentIDs = new List<string>
                 {
-                    "rectangle",
-                    "rect",
+                    "circle",
                 };
             foreach (string id in componentIDs)
             {

@@ -6,11 +6,15 @@ using Blazor.Extensions.Canvas.Canvas2D;
 
 namespace ImageTemplate.Components
 {
-    public class Circle : IComponent
+    public class Circle : BaseComponent, IComponent
     {
         public Color Colour;
         public int StartX, StartY;
         public double Radius;
+        public Task InjectJSON(string propertiesData)
+        {
+            throw new Exception("Not implemented");
+        }
         public Task Render(IDictionary<string, object> props = null)
         {
             throw new Exception("Not implemented");

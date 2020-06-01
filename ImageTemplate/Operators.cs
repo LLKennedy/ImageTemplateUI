@@ -168,9 +168,11 @@ namespace ImageTemplate
                 {
                     case byte convertedObj:
                         return (double)convertedObj;
-                    case int convertedObj:
-                        return (double)convertedObj;
                     case Int16 convertedObj:
+                        return (double)convertedObj;
+                    case UInt16 convertedObj:
+                        return (double)convertedObj;
+                    case int convertedObj:
                         return (double)convertedObj;
                     case uint convertedObj:
                         return (double)convertedObj;

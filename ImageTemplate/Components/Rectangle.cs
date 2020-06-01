@@ -8,7 +8,7 @@ using ImageTemplate.File.Raw;
 
 namespace ImageTemplate.Components
 {
-    public class Rectangle : IComponent
+    public class Rectangle : BaseComponent, IComponent
     {
         public Color Colour;
         public int StartX, StartY;
@@ -18,7 +18,26 @@ namespace ImageTemplate.Components
             return Task.Run(() =>
             {
                 var raw = JsonConvert.DeserializeObject<Raw>(propertiesData);
-
+                ParseRawRGBA(raw.colour, loaded =>
+                {
+                    Colour = loaded;
+                });
+                ParseDouble(raw.height, loaded =>
+                {
+                    Height = (uint)loaded;
+                });
+                ParseDouble(raw.width, loaded =>
+                {
+                    Width = (uint)loaded;
+                });
+                ParseDouble(raw.topLeftX, loaded =>
+                {
+                    StartX = (int)loaded;
+                });
+                ParseDouble(raw.topLeftY, loaded =>
+                {
+                    StartY = (int)loaded;
+                });
             });
         }
         public async Task Render(Canvas2DContext context, IDictionary<string, object> props = null)
